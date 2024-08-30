@@ -1,6 +1,6 @@
 import os
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 
 # Directory to store LeetCode solutions locally
@@ -44,8 +44,8 @@ def fetch_leetcode_solutions():
     
     solutions = []
     today = datetime.now(pytz.utc).date()  # Get today's date in UTC
-    
-    for submission in submissions.get('submissions_dump', []):
+    today = today - timedelta(days=1)
+    for submission in reversed(submissions.get('submissions_dump', [])):
         submission_time = datetime.fromtimestamp(submission['timestamp'], pytz.utc).date()
         
         if submission_time == today and submission.get('status_display') == 'Accepted':
